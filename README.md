@@ -23,5 +23,5 @@ This tool is perfect for automation, trend tracking, data analysis, and portfoli
 
 ---
 
-## 🧪 Example Output (CSV Columns)
+
 
