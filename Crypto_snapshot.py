@@ -1,4 +1,3 @@
-#%%
 """
 Crypto Snapshot CLI Tool
 Author: Avtar Mohan Raj
@@ -19,22 +18,28 @@ def fetch_crypto_data(coin="bitcoin", currency="usd"):
         "vs_currencies": currency
     }
 
-    response = requests.get(API_URL, params=params, timeout=10)
+    headers = {
+        "User-Agent": "CryptoSnapshotTool/1.0"
+    }
+
+    response = requests.get(API_URL, params=params, headers=headers, timeout=10)
     response.raise_for_status()
 
     data = response.json()
 
     if coin not in data:
-        raise ValueError("Invalid coin name.")
+        raise ValueError(f"Invalid coin name: {coin}")
 
     return data[coin][currency]
 
 
 def save_to_csv(coin, currency, price, output_file):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     with open(output_file, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(["coin", "currency", "price", "timestamp"])
-        writer.writerow([coin, currency, price, datetime.now()])
+        writer.writerow([coin, currency, price, timestamp])
 
 
 def main():
